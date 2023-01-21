@@ -1,0 +1,10 @@
+.__basicModal_field_div{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+.__basicModal_field_div > input{
+    height: '30px';
+
+}

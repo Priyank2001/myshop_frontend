@@ -1,0 +1,23 @@
+.__admin_top_bar{
+    display: flex;
+    flex-direction: row;
+    height: 15vh;
+    background-color: grey;
+    color: white;
+    align-items: center;
+}
+
+
+.__admin_top_bar > img {
+    height: 100%;
+}
+.__admin_top_bar_labels_div{
+    padding:10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.__admin_top_bar_labels{
+    padding: 10px;
+    text-decoration: n;
+}
