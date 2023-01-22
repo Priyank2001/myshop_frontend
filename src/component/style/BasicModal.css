@@ -6,5 +6,6 @@
 }
 .__basicModal_field_div > input{
     height: '30px';
-
+    padding: 5px;
+    margin: 10px;
 }

@@ -4,7 +4,7 @@ import AdminTopBar from './AdminTopBar'
 import BasicTable from './BasicTable'
 import { useState } from 'react'
 import {Modal,Box,Typography,} from '@mui/material'
-import BasicModal from './BasicModal'
+import CreateUserBasicModal from './CreateUserBasicModal'
 
 
 function UserPage() {
@@ -21,7 +21,7 @@ function UserPage() {
         <AdminTopBar />
         <div>
             <h1>User Details</h1>
-            <BasicModal useCase="create_new_user" buttonName="Create a new User"/>
+            <CreateUserBasicModal useCase="create_new_user" buttonName="Create a new User"/>
             <Button>Delete</Button>
         </div>
         <BasicTable url="http://localhost:8080/myshopadmin/users" />

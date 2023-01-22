@@ -1,8 +1,2 @@
 
-export default class Context{
-    constructor(){
-        if(this.instance != null)return
-        this.instance = new Context();
-        this.adminUrl="/myshopadmin"
-    }
-}
+export const GET_CREATE_NEW_USER_FORM_ADMIN = "GET_CREATE_NEW_USER_INPUT_FIELDS"

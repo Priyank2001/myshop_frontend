@@ -8,7 +8,6 @@ export default function Reducer(state,action){
                 fetch(`${Context.BASE_BACKEND_URL}${Context.ADMIN_BASE_URL}/users/save`)
                 .then(res =>res.json())
                 .then(json => data=json)
-                state
                 return state
             } catch (error) {
                 
