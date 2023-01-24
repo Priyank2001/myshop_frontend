@@ -19,7 +19,7 @@ function UserPage() {
   return (
     <div>
         <AdminTopBar />
-        <div>
+        <div >
             <h1>User Details</h1>
             <CreateUserBasicModal useCase="create_new_user" buttonName="Create a new User"/>
             <Button>Delete</Button>

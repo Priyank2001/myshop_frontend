@@ -12,31 +12,54 @@ import { Tab } from '@mui/material';
 
 
 export default function BasicTable(props) {
-    const [data,setData] = useState(null)
+    const [data,setData] = useState({loading:false,
+        rows:null,})
+    const tableStyle = {
+        width:'70%',
+        minWidth: "650",
+        margin:'auto',
+        border:'solid',
+
+    }
     React.useEffect(() => {
+        setData((prevState) => {
+            return {
+                ...prevState,
+                loading:true,
+            }
+        })
         try {
              fetch(props.url)
              .then(res => res.json())
-             .then(json => {setData(json);console.log(json)})
+             .then(json => {setData(prevState => {
+                return {
+                    loading:false,
+                    rows:json
+                }
+             })})
         } catch (error) {
-            console.log(error);
+            data.setData({
+                loading:false,
+                rows:null
+            })
         }
     },[])
   return (
+    <>
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={tableStyle} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>User Id</TableCell>
-            <TableCell>First Name</TableCell>
-            <TableCell>Last Name</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>Enabled</TableCell>
+            <TableCell><h3>User Id   </h3></TableCell>
+            <TableCell><h3>First Name</h3></TableCell>
+            <TableCell><h3>Last Name </h3></TableCell>
+            <TableCell><h3>Email     </h3></TableCell>
+            <TableCell><h3>Enabled   </h3></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
             {
-                data == null ? <></>: data.map((user) => 
+                data.loading == false && data.rows != null ? data.rows.map((user) => 
                     <TableRow key={user.id}>
                         <TableCell>{user.id}</TableCell>
                         <TableCell>{user.firstName}</TableCell>
@@ -44,24 +67,17 @@ export default function BasicTable(props) {
                         <TableCell>{user.email}</TableCell>
                         <TableCell>{user.enabled}</TableCell>
                     </TableRow>
-                )
+                    
+                ) : <></>
             }
-          {/* {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))} */}
+
         </TableBody>
       </Table>
     </TableContainer>
+    { console.log(data)}
+      {
+        data.rows == null && data.loading == false ? <div style={{textAlign:'center',width:"100%"}}>Something Unexpected Happened</div>:<></>
+      }
+    </>
   );
 }

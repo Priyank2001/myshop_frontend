@@ -52,18 +52,15 @@ export default function CreateUserBasicModal(props) {
       }
     }  
   const handleCreateNewUser = async () => {
-      setRequestBody({
-        method:'POST',
-        headers:{'Content-Type' :'application/json'},
-        body:JSON.stringify(inputState)
-      })
-      console.log(requestBody)
       try {
-        fetch(`${endpoints.BACKEND_URL}${endpoints.POST_CREATE_NEW_USER}`,requestBody)
+        fetch(`${endpoints.BACKEND_URL}${endpoints.POST_CREATE_NEW_USER}`,{
+          method:'POST',
+          headers:{'Content-Type' :'application/json'},
+          body:JSON.stringify(inputState)
+        })
         .then(res => res.json())
         .then(json => console.log(json))
       } catch (error) {
-          console.log(error)
       }
 
   }
