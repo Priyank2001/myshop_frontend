@@ -51,6 +51,9 @@ export default function CreateUserBasicModal(props) {
         console.log(error)
       }
     }  
+  const checkUniqueEmail = async () => {
+
+  }
   const handleCreateNewUser = async () => {
       try {
         fetch(`${endpoints.BACKEND_URL}${endpoints.POST_CREATE_NEW_USER}`,{
@@ -80,34 +83,29 @@ export default function CreateUserBasicModal(props) {
                 <input 
                   required={item.required} 
                   placeholder={item.label}
-                  type={()=>{
-                    switch(item.id){
-                      case 4: return "password"
-                      default: return "text"
-                    }
-                  }}
+                  type="password"
                   onChange={event=> {
                       setInputState((prevState) => {
-                        switch(item.id){
-                          case 1 : {
+                        switch(item.label){
+                          case 'email' : {
                             return {
                               ...prevState,
                               email:event.target.value
                             }
                           }
-                          case 2 : {
+                          case 'First Name' : {
                             return {
                               ...prevState,
                               firstName:event.target.value
                             }
                           }
-                          case 3 : {
+                          case 'Last Name' : {
                             return {
                               ...prevState,
                               lastName:event.target.value
                             }
                           }
-                          case 4 : {
+                          case 'Password' : {
                             return {
                               ...prevState,
                               password:event.target.value

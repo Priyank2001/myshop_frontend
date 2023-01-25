@@ -1,8 +1,19 @@
 import { createStore } from "redux";
-import rotateReducer from "reducers/rotateReducer";
+import userReducer from "reducers/usersReducer";
 
-function configureStore(state = { rotating: true }) {
-  return createStore(rotateReducer,state);
+
+
+const initialState = {
+  userInformation : {
+
+  }
 }
 
-export default configureStore;
+const reducer = combineReducers({
+  userReducer:userReducer
+})
+function configureStore(state = initialState) {
+  return createStore(reducer,state);
+}
+const store = configureStore(initialState)
+export default store;
