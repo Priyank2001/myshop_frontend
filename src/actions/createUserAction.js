@@ -1,4 +1,5 @@
 import axios, * as others from "axios";
+import ValidateInputs from "../utils/ValidateInputs";
 const constants = require("../Constants");
 const endpoints = require("../Endpoints");
 const config = {
@@ -14,19 +15,27 @@ export const createUserAction = (requestBody) => async (dispatch) => {
     type: constants.GET_CREATE_NEW_USER_FORM_ADMIN,
     url: `${endpoints.BACKEND_URL}${endpoints.POST_CREATE_NEW_USER}`,
   };
-  try {
-    const { data } = await axios.post(
-      obj.url,
-      JSON.stringify(requestBody),
-      config
-    );
-    dispatch({
-      type: constants.CREATE_USER_SUCCESS,
-      payload: data,
-    });
-  } catch (exception) {
-    console.log(exception);
-  }
+  const requestObj = {
+    email: requestBody.email.text,
+    firstName: requestBody.firstName.text,
+    lastName: requestBody.lastName.text,
+    password: requestBody.password.text,
+  };
+  const temp = ValidateInputs(requestBody);
+  console.log(temp);
+  //   try {
+  //     const { data } = await axios.post(
+  //       obj.url,
+  //       JSON.stringify(requestObj),
+  //       config
+  //     );
+  //     dispatch({
+  //       type: constants.CREATE_USER_SUCCESS,
+  //       payload: data,
+  //     });
+  //   } catch (exception) {
+  //     console.log(exception);
+  //   }
 };
 
 export const getCreateNewUserInputFields = () => async (dispatch) => {
