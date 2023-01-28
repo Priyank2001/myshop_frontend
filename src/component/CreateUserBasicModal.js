@@ -7,14 +7,20 @@ import { useState } from "react";
 import "./style/BasicModal.css";
 import { ReactReduxContext, useDispatch, useSelector } from "react-redux";
 import CircularIndeterminate from "./CircularIndeterminate";
+import Switch from "@mui/material/Switch";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
 import ValidateInputs from "../utils/ValidateInputs";
 import {
   createUserAction,
   getCreateNewUserInputFields,
 } from "../actions/createUserAction";
 import { useNavigate } from "react-router-dom";
+
 const constants = require("../Constants");
 const endpoints = require("../Endpoints");
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -42,18 +48,26 @@ export default function CreateUserBasicModal(props) {
     lastName: { text: "", regex: "" },
     password: { text: "", regex: "" },
   });
-  const [uiState, setUiState] = useState({
+  const initialUiState = {
     loaderVisible: false,
     inputFieldsVisible: false,
     errorMessageVisible: false,
-  });
+    invalidInputs: {
+      visible: false,
+      labelIds: [],
+    },
+    roles: [],
+  };
+  const [uiState, setUiState] = useState(initialUiState);
   const [errorMessage, setErrorMessage] = useState("");
+
   /**
    * Required for react-redux bindings
    */
   const dispatch = useDispatch();
   const userReducer = useSelector((state) => state.userReducer);
-  const { inputFields, loading, error } = userReducer;
+  const { inputFields, loading, newUserData, error, invalidInputFields } =
+    userReducer;
   /**
    * Handling User Events
    */
@@ -77,6 +91,7 @@ export default function CreateUserBasicModal(props) {
       lastName: { text: "", regex: "" },
       password: { text: "", regex: "" },
     });
+    setUiState(initialUiState);
   };
 
   const handleError = (useCase) => {
@@ -86,8 +101,6 @@ export default function CreateUserBasicModal(props) {
         setUiState((state) => {
           return {
             ...state,
-            inputFieldsVisible: false,
-            loaderVisible: loading,
             errorMessageVisible: true,
           };
         });
@@ -96,13 +109,58 @@ export default function CreateUserBasicModal(props) {
       }
     }
   };
+
+  const handleOnChangeTextField = (event, item) => {
+    setInputState((prevState) => {
+      switch (item.label) {
+        case "Email": {
+          return {
+            ...prevState,
+            email: {
+              ...prevState.email,
+              text: event.target.value,
+            },
+          };
+        }
+        case "First Name": {
+          return {
+            ...prevState,
+            firstName: {
+              ...prevState.firstName,
+              text: event.target.value,
+            },
+          };
+        }
+        case "Last Name": {
+          return {
+            ...prevState,
+            lastName: {
+              ...prevState.lastName,
+              text: event.target.value,
+            },
+          };
+        }
+        case "Password": {
+          return {
+            ...prevState,
+            password: {
+              ...prevState.password,
+              text: event.target.value,
+            },
+          };
+        }
+        default: {
+          return prevState;
+        }
+      }
+    });
+  };
   /**
    * Making the Api calls using the dispatcher
    */
   const getCreateNewUserForm = async () => {
     dispatch(getCreateNewUserInputFields());
   };
-  const checkUniqueEmail = async () => {};
   const handleCreateNewUser = () => {
     dispatch(createUserAction(inputState));
   };
@@ -119,7 +177,12 @@ export default function CreateUserBasicModal(props) {
             setInputState((prevState) => {
               return {
                 ...prevState,
-                email: { ...prevState.email, regex: inputField.regex },
+                email: {
+                  ...prevState.email,
+                  regex: inputField.regex,
+                  labelId: inputField.labelId,
+                  label: inputField.label,
+                },
               };
             });
             break;
@@ -128,7 +191,12 @@ export default function CreateUserBasicModal(props) {
             setInputState((prevState) => {
               return {
                 ...prevState,
-                firstName: { ...prevState.firstName, regex: inputField.regex },
+                firstName: {
+                  ...prevState.firstName,
+                  regex: inputField.regex,
+                  labelId: inputField.labelId,
+                  label: inputField.label,
+                },
               };
             });
             break;
@@ -137,7 +205,12 @@ export default function CreateUserBasicModal(props) {
             setInputState((prevState) => {
               return {
                 ...prevState,
-                lastName: { ...prevState.lastName, regex: inputField.regex },
+                lastName: {
+                  ...prevState.lastName,
+                  regex: inputField.regex,
+                  labelId: inputField.labelId,
+                  label: inputField.label,
+                },
               };
             });
             break;
@@ -146,7 +219,12 @@ export default function CreateUserBasicModal(props) {
             setInputState((prevState) => {
               return {
                 ...prevState,
-                password: { ...prevState.password, regex: inputField.regex },
+                password: {
+                  ...prevState.password,
+                  regex: inputField.regex,
+                  labelId: inputField.labelId,
+                  label: inputField.label,
+                },
               };
             });
             break;
@@ -168,6 +246,60 @@ export default function CreateUserBasicModal(props) {
   React.useEffect(() => {
     if (error != null) handleError(error.operationName);
   }, [error]);
+
+  React.useEffect(() => {
+    console.log(invalidInputFields);
+    if (invalidInputFields != null && invalidInputFields.length > 0) {
+      setUiState((prevState) => {
+        const arr = [];
+        invalidInputFields.map((item) => arr.push(item.labelId));
+        return {
+          ...prevState,
+          invalidInputs: {
+            visible: true,
+            labelIds: arr,
+          },
+        };
+      });
+    } else {
+      setUiState((prevState) => {
+        return {
+          ...prevState,
+          invalidInputs: {
+            visible: false,
+            labelIds: [],
+          },
+        };
+      });
+    }
+  }, [invalidInputFields]);
+
+  React.useEffect(() => {
+    if (newUserData != null) {
+      console.log("new user created");
+      handleClose();
+    }
+  }, [newUserData]);
+
+  React.useEffect(() => {
+    setUiState((prevState) => {
+      return {
+        ...prevState,
+        loaderVisible: loading,
+      };
+    });
+  }, [loading]);
+  // React.useEffect(() => {
+  //   if (roles != null) {
+  //     setUiState((prevState) => {
+  //       return {
+  //         ...prevState,
+  //         roles: roles,
+  //       };
+  //     });
+  //   }
+  // }, [roles]);
+
   return (
     <div>
       <Button onClick={handleOpen}>{props.buttonName}</Button>
@@ -179,70 +311,59 @@ export default function CreateUserBasicModal(props) {
       >
         <Box sx={style}>
           <h3>Create New user</h3>
-          {uiState.loaderVisible ? <CircularIndeterminate /> : <></>}
-          {fields.map((item, idx) => (
-            <div className="__basicModal_field_div" key={idx}>
-              <input
-                required={item.required}
-                placeholder={item.label}
-                type={item.label == "Password" ? "password" : "text"}
-                onChange={(event) => {
-                  setInputState((prevState) => {
-                    switch (item.label) {
-                      case "Email": {
-                        return {
-                          ...prevState,
-                          email: {
-                            ...prevState.email,
-                            text: event.target.value,
-                          },
-                        };
-                      }
-                      case "First Name": {
-                        return {
-                          ...prevState,
-                          firstName: {
-                            ...prevState.firstName,
-                            text: event.target.value,
-                          },
-                        };
-                      }
-                      case "Last Name": {
-                        return {
-                          ...prevState,
-                          lastName: {
-                            ...prevState.lastName,
-                            text: event.target.value,
-                          },
-                        };
-                      }
-                      case "Password": {
-                        return {
-                          ...prevState,
-                          password: {
-                            ...prevState.password,
-                            text: event.target.value,
-                          },
-                        };
-                      }
-                      default: {
-                        return prevState;
-                      }
-                    }
-                  });
-                }}
-              ></input>
-            </div>
-          ))}
+          {uiState.loaderVisible ? (
+            <CircularIndeterminate />
+          ) : (
+            <>
+              {fields.map((item, idx) => (
+                <div className="__basicModal_field_div" key={idx}>
+                  <TextField
+                    // required={item.required}
+                    label={item.label}
+                    variant="outlined"
+                    margin="normal"
+                    style={{ padding: "0px" }}
+                    type={item.label == "Password" ? "password" : "text"}
+                    onChange={(event) => {
+                      handleOnChangeTextField(event, item);
+                    }}
+                  ></TextField>
+                </div>
+              ))}
+              {/* <FormGroup>
+                {uiState.roles.map((item, idx) => {
+                  return (
+                    <></>
+                    // <FormControlLabel control={<Switch />} label={item.name} />
+                  );
+                })}
+              </FormGroup> */}
+            </>
+          )}
           {uiState.errorMessageVisible ? <h5>{errorMessage}</h5> : <></>}
           <Button
             onClick={() => {
               handleCreateNewUser();
             }}
-            disabled={error != null || uiState.errorMessageVisible}
+            style={{
+              marginTop: "20px",
+              marginBottom: "10px",
+              backgroundColor: "#09cfed",
+              text: "white",
+              alignItems: "center",
+            }}
+            disabled={loading}
           >
             Submit
           </Button>
+          <Button
+            onClick={() => {
+              handleClose();
+            }}
+          >
+            Cancel
+          </Button>
+          {error != null ? <>{error.message}</> : <></>}
         </Box>
       </Modal>
     </div>

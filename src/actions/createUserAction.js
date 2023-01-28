@@ -22,20 +22,51 @@ export const createUserAction = (requestBody) => async (dispatch) => {
     password: requestBody.password.text,
   };
   const temp = ValidateInputs(requestBody);
-  console.log(temp);
-  //   try {
-  //     const { data } = await axios.post(
-  //       obj.url,
-  //       JSON.stringify(requestObj),
-  //       config
-  //     );
-  //     dispatch({
-  //       type: constants.CREATE_USER_SUCCESS,
-  //       payload: data,
-  //     });
-  //   } catch (exception) {
-  //     console.log(exception);
-  //   }
+  const duplicateEmailCheck = async () => {
+    const response = await axios.post(
+      `${endpoints.BACKEND_URL}${endpoints.DUPLICATE_EMAIL_EXISTS}?email=${requestObj.email}`
+    );
+    return response;
+  };
+  const res = await duplicateEmailCheck();
+
+  if (temp.valid && res == "Unique") {
+    try {
+      const { data } = await axios.post(
+        obj.url,
+        JSON.stringify(requestObj),
+        config
+      );
+      dispatch({
+        type: constants.CREATE_USER_SUCCESS,
+        payload: data,
+      });
+    } catch (exception) {
+      console.log(exception);
+    }
+  } else {
+    try {
+      var names = "";
+      const arr = [];
+      temp.invalidInputs.map((item, idx) => arr.push(item.label));
+      names = arr.join(",");
+      if (res.data == "Unique") {
+        dispatch({
+          type: constants.errorConsts.CREATE_USER_REQUEST_BODY_INVALID,
+          invalidInputs: temp.invalidInputs,
+          errorMessage: `${names} are wrong`,
+        });
+      } else {
+        dispatch({
+          type: constants.errorConsts.CREATE_USER_REQUEST_BODY_INVALID,
+          invalidInputs: temp.invalidInputs,
+          errorMessage: `Email is duplicate`,
+        });
+      }
+    } catch (exception) {
+      console.log(exception);
+    }
+  }
 };
 
 export const getCreateNewUserInputFields = () => async (dispatch) => {
@@ -51,9 +82,6 @@ export const getCreateNewUserInputFields = () => async (dispatch) => {
       payload: data,
     });
   } catch (exception) {
-    dispatch({
-      type: constants.GET_CREATE_NEW_USER_FORM_INPUT_FIELDS_FAILURE,
-      error: exception,
-    });
+    console.log(exception);
   }
 };
