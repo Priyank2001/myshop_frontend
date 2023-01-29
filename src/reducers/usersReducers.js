@@ -15,6 +15,7 @@ export const userReducer = (state = initialState, action) => {
         invalidInputFields: [],
         newUserData: null,
         error: null,
+        roles:[]
       };
     }
     case constants.CREATE_USER_SUCCESS: {
@@ -39,6 +40,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         inputFields: action.payload.list,
+        roles:action.payload.roles,
         invalidInputFields: [],
         error: null,
       };
