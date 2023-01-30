@@ -6,9 +6,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { json } from "react-router-dom";
 import { useState } from "react";
-import { Tab } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import DoneIcon from "@mui/icons-material/Done";
 
 export default function BasicTable(props) {
   const [data, setData] = useState({ loading: false, rows: null });
@@ -42,7 +42,7 @@ export default function BasicTable(props) {
         rows: null,
       });
     }
-  }, []);
+  });
   return (
     <>
       <TableContainer component={Paper}>
@@ -64,17 +64,21 @@ export default function BasicTable(props) {
               <TableCell>
                 <h3>Enabled </h3>
               </TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.loading == false && data.rows != null ? (
+            {data.loading === false && data.rows !== null ? (
               data.rows.map((user) => (
                 <TableRow key={user.id}>
                   <TableCell>{user.id}</TableCell>
                   <TableCell>{user.firstName}</TableCell>
                   <TableCell>{user.lastName}</TableCell>
                   <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.enabled}</TableCell>
+                  <TableCell>{user.enabled ? <DoneIcon /> : <></>}</TableCell>
+                  <TableCell>
+                    <DeleteIcon />
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
@@ -83,7 +87,7 @@ export default function BasicTable(props) {
           </TableBody>
         </Table>
       </TableContainer>
-      {data.rows == null && data.loading == false ? (
+      {data.rows === null && data.loading === false ? (
         <div style={{ textAlign: "center", width: "100%" }}>
           Something Unexpected Happened
         </div>
@@ -93,3 +97,4 @@ export default function BasicTable(props) {
     </>
   );
 }
+ 

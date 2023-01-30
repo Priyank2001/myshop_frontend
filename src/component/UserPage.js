@@ -2,19 +2,9 @@ import { Button } from "@mui/material";
 import React from "react";
 import AdminTopBar from "./AdminTopBar";
 import BasicTable from "./BasicTable";
-import { useState } from "react";
-import { Modal, Box, Typography } from "@mui/material";
 import CreateUserBasicModal from "./CreateUserBasicModal";
 
 function UserPage() {
-  const [createUserModalOpen, setCreateUserModalOpen] = useState(false);
-  const modalHandleOpen = () => {
-    setCreateUserModalOpen(true);
-  };
-  const modalHandleClose = () => {
-    setCreateUserModalOpen(false);
-  };
-
   return (
     <div>
       <AdminTopBar />

@@ -1,11 +1,10 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useState } from "react";
 import "./style/BasicModal.css";
-import { ReactReduxContext, useDispatch, useSelector } from "react-redux";
+import {  useDispatch, useSelector } from "react-redux";
 import CircularIndeterminate from "./CircularIndeterminate";
 import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
@@ -16,10 +15,8 @@ import {
   createUserAction,
   getCreateNewUserInputFields,
 } from "../actions/createUserAction";
-import { useNavigate } from "react-router-dom";
 
 const constants = require("../Constants");
-const endpoints = require("../Endpoints");
 
 const style = {
   position: "absolute",
@@ -112,6 +109,7 @@ export default function CreateUserBasicModal(props) {
             errorMessageVisible: true,
           };
         });
+        break;
       }
       default: {
       }
@@ -176,7 +174,7 @@ export default function CreateUserBasicModal(props) {
       setInputState((prevState) => {
         return {
           ...prevState,
-          roleSet: new Set([...prevState.roleSet].filter((x) => x != role)),
+          roleSet: new Set([...prevState.roleSet].filter((x) => x !== role)),
         };
       });
     }
@@ -350,7 +348,7 @@ export default function CreateUserBasicModal(props) {
                     variant="outlined"
                     margin="normal"
                     style={{ padding: "0px" }}
-                    type={item.label == "Password" ? "password" : "text"}
+                    type={item.label === "Password" ? "password" : "text"}
                     onChange={(event) => {
                       handleOnChangeTextField(event, item);
                     }}
