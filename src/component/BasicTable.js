@@ -9,7 +9,8 @@ import Paper from "@mui/material/Paper";
 import { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
-
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import { Tab } from "@mui/material";
 export default function BasicTable(props) {
   const [data, setData] = useState({ loading: false, rows: null });
   const tableStyle = {
@@ -19,12 +20,6 @@ export default function BasicTable(props) {
     border: "solid",
   };
   React.useEffect(() => {
-    setData((prevState) => {
-      return {
-        ...prevState,
-        loading: true,
-      };
-    });
     try {
       fetch(props.url)
         .then((res) => res.json())
@@ -36,12 +31,7 @@ export default function BasicTable(props) {
             };
           });
         });
-    } catch (error) {
-      data.setData({
-        loading: false,
-        rows: null,
-      });
-    }
+    } catch (error) {}
   });
   return (
     <>
@@ -64,7 +54,12 @@ export default function BasicTable(props) {
               <TableCell>
                 <h3>Enabled </h3>
               </TableCell>
-              <TableCell></TableCell>
+              <TableCell>
+                <h3>Edit </h3>
+              </TableCell>
+              <TableCell>
+                <h3>Delete</h3>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -76,6 +71,9 @@ export default function BasicTable(props) {
                   <TableCell>{user.lastName}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.enabled ? <DoneIcon /> : <></>}</TableCell>
+                  <TableCell>
+                    <ModeEditIcon />
+                  </TableCell>
                   <TableCell>
                     <DeleteIcon />
                   </TableCell>
@@ -97,4 +95,3 @@ export default function BasicTable(props) {
     </>
   );
 }
- 
