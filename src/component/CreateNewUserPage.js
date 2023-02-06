@@ -27,10 +27,10 @@ export default function CreateNewUserPage() {
 
   useEffect(() => {
     handleGetCreateNewUserInputFields();
-  });
+  }, []);
 
   useEffect(() => {
-    if (payload != null && error === null)
+    if (payload !== null && error === null)
       setUiState((prevState) => {
         return {
           ...prevState,
@@ -38,7 +38,7 @@ export default function CreateNewUserPage() {
           roles: payload.roles,
         };
       });
-  }, [payload,error]);
+  }, [payload, error]);
 
   useEffect(() => {
     console.log(loading);
@@ -56,6 +56,7 @@ export default function CreateNewUserPage() {
         <CircularIndeterminate />
       ) : (
         <FormComponent
+          form_heading="Create New User"
           inputFields={uiState.inputFields}
           roles={uiState.roles}
         />

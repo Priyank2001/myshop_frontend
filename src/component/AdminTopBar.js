@@ -1,6 +1,7 @@
 import React from "react";
 import "./style/AdminTopBar.css";
 import { Link } from "react-router-dom";
+var endpoints = require("../Endpoints");
 
 class LabelOptions {
   constructor(label, link) {
@@ -11,7 +12,7 @@ class LabelOptions {
 
 function AdminTopBar() {
   const options = [
-    new LabelOptions("Users", "/users"),
+    new LabelOptions("Users", `${endpoints.frontendEndpoints.USERS}`),
     new LabelOptions("Products", "/products"),
     new LabelOptions("Categories", "/users"),
     new LabelOptions("Brands", "/users"),
@@ -27,7 +28,10 @@ function AdminTopBar() {
   const str = "/myshopadmin";
   return (
     <div className="__admin_top_bar">
-      <img src="https://w7.pngwing.com/pngs/288/368/png-transparent-red-and-white-shop-illustration-text-brand-illustration-shop-text-retail-rectangle.png" alt="Myshop App"/>
+      <img
+        src="https://w7.pngwing.com/pngs/288/368/png-transparent-red-and-white-shop-illustration-text-brand-illustration-shop-text-retail-rectangle.png"
+        alt="Myshop App"
+      />
 
       <div className="__admin_top_bar_labels_div">
         {options.map((item, idx) => (

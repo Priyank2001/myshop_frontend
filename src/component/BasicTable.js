@@ -10,7 +10,11 @@ import { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import { Tab } from "@mui/material";
+import { Icon, Tab } from "@mui/material";
+import { Link } from "react-router-dom";
+import IconLink from "./utils/IconLink";
+
+const endpoints = require("../Endpoints");
 export default function BasicTable(props) {
   const [data, setData] = useState({ loading: false, rows: null });
   const tableStyle = {
@@ -32,7 +36,7 @@ export default function BasicTable(props) {
           });
         });
     } catch (error) {}
-  });
+  }, []);
   return (
     <>
       <TableContainer component={Paper}>
@@ -72,10 +76,18 @@ export default function BasicTable(props) {
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.enabled ? <DoneIcon /> : <></>}</TableCell>
                   <TableCell>
-                    <ModeEditIcon />
+                    {/* <a
+                      style={{ textDecoration: "none", color: "black" }}
+                      href={`${endpoints.routePaths.UPDATE_USER_DETAILS_PAGE}/${user.id}`}
+                    > */}
+                    <IconLink
+                      icon={<ModeEditIcon />}
+                      href={`${endpoints.routePaths.UPDATE_USER_DETAILS_PAGE}/${user.id}`}
+                    />
+                    {/* </a> */}
                   </TableCell>
                   <TableCell>
-                    <DeleteIcon />
+                    <IconLink icon={<DeleteIcon />} />
                   </TableCell>
                 </TableRow>
               ))

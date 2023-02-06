@@ -3,6 +3,7 @@ import AdminPage from "./component/AdminPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import UserPage from "./component/UserPage";
 import CreateNewUserPage from "./component/CreateNewUserPage";
+import UpdateUserDetailsPage from "./component/user/UpdateUserDetailsPage";
 
 function App() {
   return (
@@ -15,6 +16,11 @@ function App() {
             exact
             path="/myshopadmin/users/create_user"
             element={<CreateNewUserPage />}
+          />
+          <Route
+            exact
+            path="/myshopadmin/users/update_user/:user_id"
+            element={<UpdateUserDetailsPage />}
           />
         </Routes>
       </div>

@@ -1,3 +1,4 @@
+import { Action } from "@remix-run/router";
 import axios from "axios";
 import ValidateInputs from "../utils/ValidateInputs";
 const constants = require("../Constants");
@@ -20,7 +21,7 @@ export const createUserAction = (requestBody) => async (dispatch) => {
     firstName: requestBody.firstName.text,
     lastName: requestBody.lastName.text,
     password: requestBody.password.text,
-    roleSet : Array.from(requestBody.roleSet)
+    roleSet: Array.from(requestBody.roleSet),
   };
   const temp = ValidateInputs(requestBody);
   const duplicateEmailCheck = async () => {
@@ -81,6 +82,23 @@ export const getCreateNewUserInputFields = () => async (dispatch) => {
       type: constants.GET_CREATE_NEW_USER_FORM_INPUT_FIELDS_SUCCESS,
       payload: data,
     });
+  } catch (exception) {
+    console.log(exception);
+  }
+};
+
+export const getAnyUserDetails = (userId) => async (dispatch) => {
+  dispatch({
+    type: constants.apiCallInitConsts.GET_ANY_USER_DETAIL_BY_USER_ID_INIT,
+  });
+  try {
+    const { data } = await axios.post(
+      `${endpoints.BACKEND_URL}${endpoints.userEndpoints.USERS}${endpoints.userEndpoints.GET_USER}?${endpoints.userEndpoints.USER_ID}=${userId}`
+    );
+    dispatch({
+      type:constants.successConsts.GET_ANY_USER_DETAIL_BY_USER_ID_SUCCESS,
+      payload:data,
+    })
   } catch (exception) {
     console.log(exception);
   }

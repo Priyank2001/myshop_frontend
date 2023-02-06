@@ -4,6 +4,7 @@ const initialState = {
   newUserData: null,
   error: null,
   loading: false,
+  userDetails:null,
   invalidInputFields: [],
 };
 export const userReducer = (state = initialState, action) => {
@@ -67,6 +68,12 @@ export const userReducer = (state = initialState, action) => {
         },
         invalidInputFields: action.invalidInputs,
       };
+    }
+    case constants.successConsts.GET_ANY_USER_DETAIL_BY_USER_ID_SUCCESS: {
+      return {
+        ...state,
+        userDetails:action.payload,
+      }
     }
     default:
       return state;
