@@ -3,8 +3,12 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useState, useEffect } from "react";
+import { useTheme } from "@mui/material/styles";
+
 export default function FormComponent(props) {
+  const theme = useTheme();
   const [inputState, setInputState] = useState({
+    id: null,
     firstName: "",
     lastName: "",
     email: "",
@@ -69,12 +73,14 @@ export default function FormComponent(props) {
   };
   const handleProceedButton = () => {
     console.log(inputState);
+    props.action(inputState);
   };
   useEffect(() => {
     if (props.userData !== null && props.prefillData === true) {
       setInputState((prevState) => {
         return {
           ...prevState,
+          id: props.userData.id,
           firstName: props.userData.firstName,
           lastName: props.userData.lastName,
           email: props.userData.email,

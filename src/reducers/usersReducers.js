@@ -4,8 +4,11 @@ const initialState = {
   newUserData: null,
   error: null,
   loading: false,
-  userDetails:null,
+  userDetails: null,
   invalidInputFields: [],
+  apis: {
+    UPDATE_USER_DETAILS: constants.API_STATUS.NOT_CALLED,
+  },
 };
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -16,7 +19,7 @@ export const userReducer = (state = initialState, action) => {
         invalidInputFields: [],
         newUserData: null,
         error: null,
-        roles:[]
+        roles: [],
       };
     }
     case constants.CREATE_USER_SUCCESS: {
@@ -41,7 +44,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         inputFields: action.payload.list,
-        roles:action.payload.roles,
+        roles: action.payload.roles,
         invalidInputFields: [],
         error: null,
       };
@@ -72,8 +75,35 @@ export const userReducer = (state = initialState, action) => {
     case constants.successConsts.GET_ANY_USER_DETAIL_BY_USER_ID_SUCCESS: {
       return {
         ...state,
-        userDetails:action.payload,
+        userDetails: action.payload,
+      };
+    }
+    case constants.errorConsts.POST_UPDATE_USER_DETAILS_FAILURE:{
+      return {
+        ...state,
+        apis: {
+          ...state.apis,
+          UPDATE_USER_DETAILS: constants.API_STATUS.FAILURE,
+        },
       }
+    }
+    case constants.successConsts.POST_UPDATE_USER_DETAILS_SUCCESS: {
+      return {
+        ...state,
+        apis: {
+          ...state.apis,
+          UPDATE_USER_DETAILS: constants.API_STATUS.SUCCESS,
+        },
+      }
+    }
+    case constants.apiCallInitConsts.POST_UPDATE_USER_DETAILS_INIT: {
+      return {
+        ...state,
+        apis: {
+          ...state.apis,
+          UPDATE_USER_DETAILS: constants.API_STATUS.LOADING,
+        },
+      };
     }
     default:
       return state;

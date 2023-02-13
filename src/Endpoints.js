@@ -5,8 +5,8 @@ export const USERS = "/users";
 export const GET_CREATE_NEW_USER_FORM = "/inputFields/new_user";
 export const INPUT_FIELDS = "/inputFields";
 export const NEW_USER = "/new_user";
-export const CREATE_USER = "/create_user"
-export const UPDATE_USER = "/update_user"
+export const CREATE_USER = "/create_user";
+export const UPDATE_USER = "/update_user";
 export const POST_CREATE_NEW_USER = "/users/save";
 export const DUPLICATE_EMAIL_EXISTS = "/users/check_email";
 
@@ -19,11 +19,14 @@ export const userEndpoints = {
 
 export const frontendEndpoints = {
   USERS_PAGE: `${FRONTEND_BASE_URL}${FRONTEND_APPNAME}${USERS}`,
+  CREATE_USER_PAGE: `${FRONTEND_BASE_URL}${FRONTEND_APPNAME}${USERS}${CREATE_USER}`,
+};
+export const apiEndpoints = {
+  POST_UPDATE_USER_DETAILS: `${BACKEND_URL}${USERS}${UPDATE_USER}`,
 };
 
 export const routePaths = {
-  USERS_PAGE:`${FRONTEND_APPNAME}${USERS}`,
-  CREATE_USER_PAGE:`${FRONTEND_APPNAME}${USERS}${CREATE_USER}`,
-  UPDATE_USER_DETAILS_PAGE:`${FRONTEND_APPNAME}${USERS}${UPDATE_USER}`,
-
-}
+  USERS_PAGE: `${FRONTEND_APPNAME}${USERS}`,
+  CREATE_USER_PAGE: `${FRONTEND_APPNAME}${USERS}${CREATE_USER}`,
+  UPDATE_USER_DETAILS_PAGE: `${FRONTEND_APPNAME}${USERS}${UPDATE_USER}`,
+};

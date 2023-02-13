@@ -2,14 +2,16 @@ import { Button } from "@mui/material";
 import React from "react";
 import AdminTopBar from "./AdminTopBar";
 import BasicTable from "./BasicTable";
-import CreateUserBasicModal from "./CreateUserBasicModal";
+import { useTheme } from '@mui/material/styles';
+const endpoints = require("../Endpoints");
 
 function UserPage() {
+  const theme = useTheme();
   return (
     <div>
       <AdminTopBar />
       <div>
-        <h1 style={{ marginLeft: "20px" }}>User Details</h1>
+        <h1 style={{ marginLeft: "20px" , color:`${theme.palette.primary.main}` }}>User Details</h1>
         <div
           style={{
             paddingRight: "20px",
@@ -19,11 +21,7 @@ function UserPage() {
             justifyContent: "flex-end",
           }}
         >
-          <CreateUserBasicModal
-            useCase="create_new_user"
-            buttonName="Create a new User"
-          />
-
+	  <Button><a href={endpoints.frontendEndpoints.CREATE_USER_PAGE}>Create a new user</a></Button>
           <Button style={{ marginRight: "30px" }}>Delete</Button>
         </div>
       </div>
