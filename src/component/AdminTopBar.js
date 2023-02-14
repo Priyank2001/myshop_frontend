@@ -12,7 +12,7 @@ class LabelOptions {
 
 function AdminTopBar() {
   const options = [
-    new LabelOptions("Users", `${endpoints.frontendEndpoints.USERS}`),
+    new LabelOptions("Users", `${endpoints.userEndpoints.USERS}`),
     new LabelOptions("Products", "/products"),
     new LabelOptions("Categories", "/users"),
     new LabelOptions("Brands", "/users"),

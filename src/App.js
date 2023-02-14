@@ -4,27 +4,18 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import UserPage from "./component/UserPage";
 import CreateNewUserPage from "./component/CreateNewUserPage";
 import UpdateUserDetailsPage from "./component/user/UpdateUserDetailsPage";
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
-	palette:{
-		primary:{
-			main:"#42b0f5",
-		},
-		secondary:{
-			main:"#9342f5",
-		}
-	},
-	button:{
-		primary:{
-			backgroundColor:"#42b0f5",
-			color:"white",
-		},
-		secondary:{
-			backgroundColor:"white"
-		}
-	}
-})
+  palette: {
+    primary: {
+      main: "#42b0f5",
+    },
+    secondary: {
+      main: "#9342f5",
+    },
+  },
+});
 
 function App() {
   return (

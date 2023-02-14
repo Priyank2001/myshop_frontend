@@ -13,15 +13,21 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { Icon, Tab } from "@mui/material";
 import { Link } from "react-router-dom";
 import IconLink from "./utils/IconLink";
-
+import { deleteUser } from "../actions/UserActions";
+import { useDispatch } from "react-redux";
 const endpoints = require("../Endpoints");
 export default function BasicTable(props) {
   const [data, setData] = useState({ loading: false, rows: null });
+  const dispatch = useDispatch();
   const tableStyle = {
     width: "70%",
     minWidth: "650",
     margin: "auto",
     border: "solid",
+  };
+  const handleDeleteRequest = (userId) => {
+    console.log(userId);
+    dispatch(deleteUser(userId));
   };
   React.useEffect(() => {
     try {
@@ -37,6 +43,7 @@ export default function BasicTable(props) {
         });
     } catch (error) {}
   }, []);
+  React.useEffect(() => {}, [data]);
   return (
     <>
       <TableContainer component={Paper}>
@@ -52,6 +59,7 @@ export default function BasicTable(props) {
               <TableCell>
                 <h3>Last Name </h3>
               </TableCell>
+              console.log(response);{" "}
               <TableCell>
                 <h3>Email </h3>
               </TableCell>
@@ -87,7 +95,13 @@ export default function BasicTable(props) {
                     {/* </a> */}
                   </TableCell>
                   <TableCell>
-                    <IconLink icon={<DeleteIcon />} />
+                    <div
+                      onClick={() => {
+                        handleDeleteRequest(user.id);
+                      }}
+                    >
+                      <DeleteIcon></DeleteIcon>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))
