@@ -10,6 +10,7 @@ export const UPDATE_USER = "/update_user";
 export const POST_CREATE_NEW_USER = "/users/save";
 export const DUPLICATE_EMAIL_EXISTS = "/users/check_email";
 export const DELETE_USER = "/delete_user";
+export const PAGE = "/page"
 
 export const userEndpoints = {
   USERS: "/users",
@@ -25,6 +26,7 @@ export const frontendEndpoints = {
 export const apiEndpoints = {
   POST_UPDATE_USER_DETAILS: `${BACKEND_URL}${USERS}${UPDATE_USER}`,
   DELETE_USER_DETAILS: `${BACKEND_URL}${USERS}${DELETE_USER}`,
+  FETCH_USERS_BY_PAGE: `${BACKEND_URL}${USERS}${PAGE}`
 };
 
 export const routePaths = {

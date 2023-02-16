@@ -8,7 +8,7 @@ export const messageTypes = {
   LOADING: "LOADING",
   FAILURE: "FAILURE",
   NOT_CALLED: "NOT_CALLED",
-}
+};
 export const config = {
   headers: {
     "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export const apiCallInitConsts = {
     "GET_INPUT_FIELDS_CREATE_NEW_USER_CALL_INIT",
   GET_ANY_USER_DETAIL_BY_USER_ID_INIT: "GET_ANY_USER_DETAIL_BY_USER_ID_INIT",
   POST_UPDATE_USER_DETAILS_INIT: "POST_UPDATE_USER_DETAILS_INIT",
-  DELETE_USER_DETAILS_INIT:"DELETE_USER_DETAILS_INIT",
+  DELETE_USER_DETAILS_INIT: "DELETE_USER_DETAILS_INIT",
 };
 
 export const successConsts = {
@@ -48,6 +48,14 @@ export const requestType = {
   GET: "GET",
   UPDATE: "UPDATE",
   DELETE: "DELETE",
+};
+
+export const ManageUserDataConstants = {
+  UserListDetails: {
+    UPDATE_ACTIVE_PAGE_NUMBER: "UPDATE_ACTIVE_PAGE_NUMBER",
+    FETCH_ACTIVE_PAGE_DATA_INIT : "FETCH_ACTIVE_PAGE_DATA_INIT",
+    FETCH_ACTIVE_PAGE_DATA_RESPONSE: "FETCH_ACTIVE_PAGE_DATA_RESPONSE",
+  },
 };
 
 export const GET_CREATE_NEW_USER_FORM_ADMIN =

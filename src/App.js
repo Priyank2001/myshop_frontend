@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import UserPage from "./component/UserPage";
 import CreateNewUserPage from "./component/CreateNewUserPage";
 import UpdateUserDetailsPage from "./component/user/UpdateUserDetailsPage";
+import UsersListPage from "./component/user/UsersListPage";
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -33,6 +34,10 @@ function App() {
             exact
             path="/myshopadmin/users/update_user/:user_id"
             element={<UpdateUserDetailsPage />}
+          />
+          <Route 
+            exact path="/myshopadmin/users/page/:pageNumber"
+            element={<UsersListPage ></UsersListPage>}
           />
         </Routes>
       </div>

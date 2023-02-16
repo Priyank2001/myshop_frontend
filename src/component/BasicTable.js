@@ -57,9 +57,8 @@ export default function BasicTable(props) {
                 <h3>First Name</h3>
               </TableCell>
               <TableCell>
-                <h3>Last Name </h3>
-              </TableCell>
-              console.log(response);{" "}
+                <h3>Last Name</h3>
+              </TableCell>{""}
               <TableCell>
                 <h3>Email </h3>
               </TableCell>
