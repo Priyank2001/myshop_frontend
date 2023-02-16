@@ -6,25 +6,30 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { json } from "react-router-dom";
 import { useState } from "react";
-import { Tab } from "@mui/material";
-
+import DeleteIcon from "@mui/icons-material/Delete";
+import DoneIcon from "@mui/icons-material/Done";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import { Icon, Tab } from "@mui/material";
+import { Link } from "react-router-dom";
+import IconLink from "./utils/IconLink";
+import { deleteUser } from "../actions/UserActions";
+import { useDispatch } from "react-redux";
+const endpoints = require("../Endpoints");
 export default function BasicTable(props) {
   const [data, setData] = useState({ loading: false, rows: null });
+  const dispatch = useDispatch();
   const tableStyle = {
     width: "70%",
     minWidth: "650",
     margin: "auto",
     border: "solid",
   };
+  const handleDeleteRequest = (userId) => {
+    console.log(userId);
+    dispatch(deleteUser(userId));
+  };
   React.useEffect(() => {
-    setData((prevState) => {
-      return {
-        ...prevState,
-        loading: true,
-      };
-    });
     try {
       fetch(props.url)
         .then((res) => res.json())
@@ -36,13 +41,9 @@ export default function BasicTable(props) {
             };
           });
         });
-    } catch (error) {
-      data.setData({
-        loading: false,
-        rows: null,
-      });
-    }
+    } catch (error) {}
   }, []);
+  React.useEffect(() => {}, [data]);
   return (
     <>
       <TableContainer component={Paper}>
@@ -56,25 +57,51 @@ export default function BasicTable(props) {
                 <h3>First Name</h3>
               </TableCell>
               <TableCell>
-                <h3>Last Name </h3>
-              </TableCell>
+                <h3>Last Name</h3>
+              </TableCell>{""}
               <TableCell>
                 <h3>Email </h3>
               </TableCell>
               <TableCell>
                 <h3>Enabled </h3>
               </TableCell>
+              <TableCell>
+                <h3>Edit </h3>
+              </TableCell>
+              <TableCell>
+                <h3>Delete</h3>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.loading == false && data.rows != null ? (
+            {data.loading === false && data.rows !== null ? (
               data.rows.map((user) => (
                 <TableRow key={user.id}>
                   <TableCell>{user.id}</TableCell>
                   <TableCell>{user.firstName}</TableCell>
                   <TableCell>{user.lastName}</TableCell>
                   <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.enabled}</TableCell>
+                  <TableCell>{user.enabled ? <DoneIcon /> : <></>}</TableCell>
+                  <TableCell>
+                    {/* <a
+                      style={{ textDecoration: "none", color: "black" }}
+                      href={`${endpoints.routePaths.UPDATE_USER_DETAILS_PAGE}/${user.id}`}
+                    > */}
+                    <IconLink
+                      icon={<ModeEditIcon />}
+                      href={`${endpoints.routePaths.UPDATE_USER_DETAILS_PAGE}/${user.id}`}
+                    />
+                    {/* </a> */}
+                  </TableCell>
+                  <TableCell>
+                    <div
+                      onClick={() => {
+                        handleDeleteRequest(user.id);
+                      }}
+                    >
+                      <DeleteIcon></DeleteIcon>
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
@@ -83,7 +110,7 @@ export default function BasicTable(props) {
           </TableBody>
         </Table>
       </TableContainer>
-      {data.rows == null && data.loading == false ? (
+      {data.rows === null && data.loading === false ? (
         <div style={{ textAlign: "center", width: "100%" }}>
           Something Unexpected Happened
         </div>

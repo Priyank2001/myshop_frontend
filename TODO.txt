@@ -1,0 +1,2 @@
+1. Validate the inputs for updating user details and check for email uniqueness.
+2.

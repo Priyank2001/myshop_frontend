@@ -1,11 +1,10 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useState } from "react";
 import "./style/BasicModal.css";
-import { ReactReduxContext, useDispatch, useSelector } from "react-redux";
+import {  useDispatch, useSelector } from "react-redux";
 import CircularIndeterminate from "./CircularIndeterminate";
 import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
@@ -16,10 +15,8 @@ import {
   createUserAction,
   getCreateNewUserInputFields,
 } from "../actions/createUserAction";
-import { useNavigate } from "react-router-dom";
 
 const constants = require("../Constants");
-const endpoints = require("../Endpoints");
 
 const style = {
   position: "absolute",
@@ -47,6 +44,7 @@ export default function CreateUserBasicModal(props) {
     firstName: { text: "", regex: "" },
     lastName: { text: "", regex: "" },
     password: { text: "", regex: "" },
+    roleSet: new Set(),
   });
   const initialUiState = {
     loaderVisible: false,
@@ -66,8 +64,14 @@ export default function CreateUserBasicModal(props) {
    */
   const dispatch = useDispatch();
   const userReducer = useSelector((state) => state.userReducer);
-  const { inputFields, loading, newUserData, error, invalidInputFields } =
-    userReducer;
+  const {
+    inputFields,
+    loading,
+    newUserData,
+    roles,
+    error,
+    invalidInputFields,
+  } = userReducer;
   /**
    * Handling User Events
    */
@@ -90,6 +94,7 @@ export default function CreateUserBasicModal(props) {
       firstName: { text: "", regex: "" },
       lastName: { text: "", regex: "" },
       password: { text: "", regex: "" },
+      roleSet: new Set(),
     });
     setUiState(initialUiState);
   };
@@ -104,6 +109,7 @@ export default function CreateUserBasicModal(props) {
             errorMessageVisible: true,
           };
         });
+        break;
       }
       default: {
       }
@@ -155,13 +161,32 @@ export default function CreateUserBasicModal(props) {
       }
     });
   };
+
+  const handleOnChaneFormControlLabel = (event, role) => {
+    if (event.target.checked === true) {
+      setInputState((prevState) => {
+        return {
+          ...prevState,
+          roleSet: new Set([...prevState.roleSet, role]),
+        };
+      });
+    } else {
+      setInputState((prevState) => {
+        return {
+          ...prevState,
+          roleSet: new Set([...prevState.roleSet].filter((x) => x !== role)),
+        };
+      });
+    }
+  };
+
   /**
    * Making the Api calls using the dispatcher
    */
   const getCreateNewUserForm = async () => {
     dispatch(getCreateNewUserInputFields());
   };
-  const handleCreateNewUser = () => {
+  const handleCreateNewUser = (event) => {
     dispatch(createUserAction(inputState));
   };
 
@@ -289,16 +314,16 @@ export default function CreateUserBasicModal(props) {
       };
     });
   }, [loading]);
-  // React.useEffect(() => {
-  //   if (roles != null) {
-  //     setUiState((prevState) => {
-  //       return {
-  //         ...prevState,
-  //         roles: roles,
-  //       };
-  //     });
-  //   }
-  // }, [roles]);
+  React.useEffect(() => {
+    if (roles != null) {
+      setUiState((prevState) => {
+        return {
+          ...prevState,
+          roles: roles,
+        };
+      });
+    }
+  }, [roles]);
 
   return (
     <div>
@@ -323,21 +348,30 @@ export default function CreateUserBasicModal(props) {
                     variant="outlined"
                     margin="normal"
                     style={{ padding: "0px" }}
-                    type={item.label == "Password" ? "password" : "text"}
+                    type={item.label === "Password" ? "password" : "text"}
                     onChange={(event) => {
                       handleOnChangeTextField(event, item);
                     }}
                   ></TextField>
                 </div>
               ))}
-              {/* <FormGroup>
-                {uiState.roles.map((item, idx) => {
-                  return (
-                    <></>
-                    // <FormControlLabel control={<Switch />} label={item.name} />
-                  );
-                })}
-              </FormGroup> */}
+              <FormGroup>
+                {uiState.roles != null ? (
+                  uiState.roles.map((item, idx) => {
+                    return (
+                      <FormControlLabel
+                        control={<Switch />}
+                        label={item.name}
+                        onChange={(event) => {
+                          handleOnChaneFormControlLabel(event, item);
+                        }}
+                      />
+                    );
+                  })
+                ) : (
+                  <></>
+                )}
+              </FormGroup>
             </>
           )}
           {uiState.errorMessageVisible ? <h5>{errorMessage}</h5> : <></>}
