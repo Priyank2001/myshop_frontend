@@ -24,7 +24,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route exact path="/myshopadmin" element={<AdminPage />} />
-          <Route exact path="/myshopadmin/users" element={<UserPage />} />
+          <Route exact path="/myshopadmin/users" element={<UsersListPage />} />
           <Route
             exact
             path="/myshopadmin/users/create_user"
@@ -34,10 +34,6 @@ function App() {
             exact
             path="/myshopadmin/users/update_user/:user_id"
             element={<UpdateUserDetailsPage />}
-          />
-          <Route 
-            exact path="/myshopadmin/users/page/:pageNumber"
-            element={<UsersListPage ></UsersListPage>}
           />
         </Routes>
       </div>

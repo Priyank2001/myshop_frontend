@@ -8,12 +8,11 @@ import { useTheme } from "@mui/material/styles";
 export default function FormComponent(props) {
   const theme = useTheme();
   const [inputState, setInputState] = useState({
-    id: null,
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    roles: new Set(),
+    roleSet: new Set(),
   });
   const handlePrefillValue = (fieldId) => {
     switch (fieldId) {
@@ -64,15 +63,14 @@ export default function FormComponent(props) {
     setInputState((prevState) => {
       return {
         ...prevState,
-        roles:
+        roleSet:
           event.target.checked === true
-            ? new Set([...prevState.roles, role])
-            : new Set([...prevState.roles].filter((x) => x !== role)),
+            ? new Set([...prevState.roleSet, role])
+            : new Set([...prevState.roleSet].filter((x) => x !== role)),
       };
     });
   };
   const handleProceedButton = () => {
-    console.log(inputState);
     props.action(inputState);
   };
   useEffect(() => {
@@ -83,6 +81,7 @@ export default function FormComponent(props) {
           id: props.userData.id,
           firstName: props.userData.firstName,
           lastName: props.userData.lastName,
+          password: props.userData.password,
           email: props.userData.email,
         };
       });
@@ -127,11 +126,11 @@ export default function FormComponent(props) {
       ) : (
         <></>
       )}
-      {props.roles != null ? (
+      {props.roleSet !== null ? (
         <div style={{ marginLeft: "15px" }}>
           <h4>Roles</h4>
           <FormGroup>
-            {props.roles.map((role) => {
+            {props.roleSet.map((role) => {
               return (
                 <FormControlLabel
                   control={<Checkbox />}
@@ -147,7 +146,7 @@ export default function FormComponent(props) {
       ) : (
         <></>
       )}
-      <Button onClick={handleProceedButton}>Update</Button>
+      <Button onClick={handleProceedButton}>{props.buttonLabel}</Button>
     </div>
   );
 }

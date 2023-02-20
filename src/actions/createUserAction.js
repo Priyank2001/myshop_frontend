@@ -17,11 +17,11 @@ export const createUserAction = (requestBody) => async (dispatch) => {
     url: `${endpoints.BACKEND_URL}${endpoints.POST_CREATE_NEW_USER}`,
   };
   var requestObj = {
-    email: requestBody.email.text,
-    firstName: requestBody.firstName.text,
-    lastName: requestBody.lastName.text,
-    password: requestBody.password.text,
-    roleSet: Array.from(requestBody.roleSet),
+    email: requestBody.email,
+    firstName: requestBody.firstName,
+    lastName: requestBody.lastName,
+    password: requestBody.password,
+    roles: Array.from(requestBody.roles),
   };
   const temp = ValidateInputs(requestBody);
   const duplicateEmailCheck = async () => {

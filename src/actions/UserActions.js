@@ -14,6 +14,7 @@ export const updateUserDetails =
     });
     try {
       const body = JSON.stringify(requestBody);
+      console.log(body);
       const response = await axios.post(url, body, config);
       dispatch({
         type: successConsts.POST_UPDATE_USER_DETAILS_SUCCESS,

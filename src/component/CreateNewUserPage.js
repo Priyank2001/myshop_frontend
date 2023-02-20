@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { getCreateNewUserFormInputFields } from "../actions/InputFieldsActions";
 import CircularIndeterminate from "./CircularIndeterminate";
+import { createUserAction } from "../actions/createUserAction";
 export default function CreateNewUserPage() {
   /**
    * Bindings required for react-redux
@@ -24,7 +25,9 @@ export default function CreateNewUserPage() {
   const handleGetCreateNewUserInputFields = () => {
     dispatch(getCreateNewUserFormInputFields());
   };
-
+  const handleOnCreate = (requestBody) => {
+    dispatch(createUserAction(requestBody));
+  };
   useEffect(() => {
     handleGetCreateNewUserInputFields();
   }, []);
@@ -59,6 +62,8 @@ export default function CreateNewUserPage() {
           form_heading="Create New User"
           inputFields={uiState.inputFields}
           roles={uiState.roles}
+          action={handleOnCreate}
+          buttonLabel={"Create User"}
         />
       )}
     </>

@@ -56,6 +56,9 @@ function UpdateUserDetailsPage(props) {
     }
   }, [apis]);
   const handleUpdate = (requestBody) => {
+    console.log(requestBody.roleSet);
+    var body = requestBody;
+    body.roleSet = Array.from(requestBody.roleSet);
     dispatch(
       updateUserDetails(
         requestType.POST,
@@ -74,13 +77,14 @@ function UpdateUserDetailsPage(props) {
       ) : (
         <FormComponent
           userData={userDetails}
-          roles={payload.roles}
+          roleSet={payload.roles}
           inputFields={payload.list}
           form_heading="Update User Details"
           prefillData={true}
           requestType={requestType.POST}
           postUrl={""}
           action={handleUpdate}
+          buttonLabel={"Update Details"}
         />
       )}
       {uiState.messageVisible === true ? (
